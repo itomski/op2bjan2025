@@ -34,6 +34,7 @@ public class ProductRepository implements Repository<Produkt> {
         // Comparator nimmt zwei Objekte entgegen und entscheidet anhand seiner Implementierung
         // ob das erste größer/gleich oder kleiner ist als das zweite
 
+        // Als Lambda
         // Produkt soll mit einem anderen Produkt verglichen werden
         // int compare(T o1, T o2); // T = Produkt
         // minus = p1 ist kleiner als p2
@@ -41,6 +42,19 @@ public class ProductRepository implements Repository<Produkt> {
         // 0 = p1 und p2 sind gleich
         Comparator<Produkt> nachAnzahl = (p1, p2) -> p1.getAnzahl() - p2.getAnzahl();
         Comparator<Produkt> nachPreis = (p1, p2) -> Double.compare(p1.getPreis(), p2.getPreis());
-        produkte.sort(nachPreis);
+
+        // Als anonyme Klasse
+        Comparator<Produkt> nachName = new Comparator<Produkt>() {
+            @Override
+            public int compare(Produkt o1, Produkt o2) {
+                // Lexikographischer Stringvergleich
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+
+        //produkte.sort(nachName);
+
+        // Als konkrete Klasse
+        produkte.sort(new VerfuegbarkeitComparator());
     }
 }
